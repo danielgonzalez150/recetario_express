@@ -1,0 +1,255 @@
+openapi: 3.0.0
+info:
+  title: API Recetario Digital
+  version: 1.0.0
+  description: Documentación de la API CRUD para la gestión de Categorías y Recetas.
+servers:
+  - url: http://localhost:3000
+    description: Servidor de Desarrollo Local
+paths:
+  /categorias:
+    get:
+      summary: Obtiene la lista de todas las categorías
+      tags: [Categorias]
+      responses:
+        '200':
+          description: Lista de categorías exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categoria'
+    post:
+      summary: Crea una nueva categoría
+      tags: [Categorias]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Categoria'
+      responses:
+        '201':
+          description: Categoría creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+        '400':
+          description: Datos incompletos o inválidos
+  /categorias/{id}:
+    get:
+      summary: Obtiene una categoría por ID
+      tags: [Categorias]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la categoría a obtener
+      responses:
+        '200':
+          description: Categoría encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+        '404':
+          description: Categoría no encontrada
+    put:
+      summary: Actualiza una categoría existente
+      tags: [Categorias]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la categoría a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Categoria'
+      responses:
+        '200':
+          description: Categoría actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+        '404':
+          description: Categoría no encontrada
+    delete:
+      summary: Elimina una categoría por ID y sus recetas asociadas
+      tags: [Categorias]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la categoría a eliminar
+      responses:
+        '204':
+          description: Categoría eliminada exitosamente
+        '404':
+          description: Categoría no encontrada
+  /recetas:
+    post:
+      summary: Crea una nueva receta
+      tags: [Recetas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receta'
+      responses:
+        '201':
+          description: Receta creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receta'
+        '400':
+          description: Faltan campos obligatorios
+        '404':
+          description: La CategoríaId especificada no existe
+  /recetas/{id}:
+    put:
+      summary: Actualiza una receta existente por ID
+      tags: [Recetas]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la receta a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receta'
+      responses:
+        '200':
+          description: Receta actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receta'
+        '404':
+          description: Receta no encontrada
+    delete:
+      summary: Elimina una receta por ID
+      tags: [Recetas]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la receta a eliminar
+      responses:
+        '204':
+          description: Receta eliminada exitosamente
+        '404':
+          description: Receta no encontrada
+  /categorias/{categoriaId}/recetas:
+    get:
+      summary: Obtiene todas las recetas para una categoría específica
+      tags: [Categorias, Recetas]
+      parameters:
+        - in: path
+          name: categoriaId
+          schema:
+            type: integer
+          required: true
+          description: ID de la categoría
+      responses:
+        '200':
+          description: Lista de recetas exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Receta'
+  /recetas/search:
+    get:
+      summary: Busca recetas por palabra clave en el nombre o ingredientes
+      tags: [Recetas]
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          required: true
+          description: Palabra clave para buscar recetas
+      responses:
+        '200':
+          description: Lista de recetas encontradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Receta'
+  /recetas/fast:
+    get:
+      summary: Obtiene todas las recetas con un tiempo de preparación menor a 30 minutos
+      tags: [Recetas]
+      responses:
+        '200':
+          description: Lista de recetas rápidas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Receta'
+
+components:
+  schemas:
+    Categoria:
+      type: object
+      required: [nombre, descripcion]
+      properties:
+        id:
+          type: integer
+          description: ID autogenerado
+        nombre:
+          type: string
+          description: Nombre de la categoría
+        descripcion:
+          type: string
+          description: Descripción de la categoría
+    Receta:
+      type: object
+      required: [categoriaId, nombre, instrucciones, tiempoPreparacion]
+      properties:
+        id:
+          type: integer
+          description: ID de la receta
+        categoriaId:
+          type: integer
+          description: ID de la categoría asociada
+        nombre:
+          type: string
+          description: Nombre de la receta
+        ingredientes:
+          type: array
+          items:
+            type: string
+          description: Lista de ingredientes
+        instrucciones:
+          type: string
+          description: Pasos de preparación
+        tiempoPreparacion:
+          type: integer
+          description: Tiempo en minutos
