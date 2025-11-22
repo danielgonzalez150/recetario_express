@@ -1,0 +1,34 @@
+// recetario-frontend/tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    
+    // ⭐️ CAMBIO CLAVE 1: Usamos 'bundler' para la resolución de módulos
+    // Esto permite importar archivos sin extensión y manejar dependencias de Vue/Vite.
+    "moduleResolution": "bundler", 
+    
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "outDir": "./dist",
+    "skipLibCheck": true,
+
+    // Base URL y Paths para resolver '@/'
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  
+  // ⭐️ CAMBIO CLAVE 2: Archivo de declaración de tipos para Vue (shims)
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ]
+}

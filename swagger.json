@@ -1,0 +1,99 @@
+
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "RecetarioExpress API",
+    "version": "1.0.0",
+    "description": "API para gestionar Categorías y Recetas (IDs Numéricos)."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  
+  "paths": {
+    "/categorias": {
+      "get": {
+        "summary": "1. Obtener todas las categorías",
+        "responses": {
+          "200": {
+            "description": "Lista de categorías",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Categoria"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "3. Crear una nueva categoría",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CategoriaInput" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Categoría creada" } }
+      }
+    },
+ 
+    "/categorias/{id}": {
+      "get": {
+        "summary": "2. Obtener una categoría por ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" } 
+          }
+        ],
+        "responses": {  }
+      }
+    }
+ 
+  },
+  
+  "components": {
+    "schemas": {
+      "Categoria": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" }, 
+          "nombre": { "type": "string", "example": "Comida Mexicana" },
+          "descripcion": { "type": "string" }
+        },
+        "required": ["nombre"]
+      },
+      "CategoriaInput": { 
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "descripcion": { "type": "string" }
+        },
+        "required": ["nombre", "descripcion"]
+      },
+      "Receta": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "categoriaId": { "type": "integer" }, 
+          "nombre": { "type": "string" },
+          "ingredientes": { "type": "array", "items": { "type": "string" } },
+          "instrucciones": { "type": "string" },
+          "tiempoPreparacion": { "type": "integer" }
+        },
+        "required": ["nombre", "categoriaId", "ingredientes", "instrucciones"]
+      }
+    }
+  }
+}

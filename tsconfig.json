@@ -1,0 +1,29 @@
+// parcial3/tsconfig.json (Backend)
+{
+  "compilerOptions": {
+    // ⭐️ Configuración de Módulos (Necesario para 'import/export') ⭐️
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "esModuleInterop": true,
+    
+    // ⭐️ Directorios de entrada y salida ⭐️
+    "outDir": "./dist",
+    "rootDir": "./src",
+
+    // Configuración estándar de TypeScript
+    "strict": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    
+    // Aseguramos que la compilación se ejecute
+    "noEmit": false
+  },
+  
+  // ⭐️ Excluir el Frontend y Node_modules ⭐️
+  "exclude": [
+    "node_modules",
+    "recetario-frontend" // <--- ¡Esta línea resuelve el error TS6059!
+  ]
+}

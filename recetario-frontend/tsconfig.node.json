@@ -1,0 +1,14 @@
+// recetario-frontend/tsconfig.node.json
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    
+    // ⭐️ DEBE SER "NodeNext" o "Node16" para el entorno de Node/Vite
+    "moduleResolution": "NodeNext", 
+    
+    "allowSyntheticDefaultImports": true,
+    "types": ["node"]
+  },
+  "include": ["vite.config.ts"]
+}
