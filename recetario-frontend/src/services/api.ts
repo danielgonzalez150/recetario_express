@@ -1,14 +1,7 @@
-// src/services/api.ts
+
 import axios from 'axios';
 
-// ----------------------------------------------------
-// URL BASE
-// ----------------------------------------------------
 const API_URL = 'http://localhost:3000';
-
-// ----------------------------------------------------
-// TIPOS DE DATOS (Necesarios para tipado en Vue)
-// ----------------------------------------------------
 
 export interface Categoria {
     id: number;
@@ -20,16 +13,10 @@ export interface Receta {
     id: number;
     categoriaId: number;
     nombre: string;
-    ingredientes: string[]; // Arreglo de strings
+    ingredientes: string[]; 
     instrucciones: string;
-    tiempoPreparacion: number; // Numérico
+    tiempoPreparacion: number; 
 }
-
-// ----------------------------------------------------
-// 1. FUNCIONES CRUD CATEGORÍAS
-// ----------------------------------------------------
-
-// GET /categorias
 export const getCategorias = async (): Promise<Categoria[]> => {
     try {
         const response = await axios.get(`${API_URL}/categorias`);
@@ -39,8 +26,6 @@ export const getCategorias = async (): Promise<Categoria[]> => {
         return [];
     }
 };
-
-// GET /categorias/:id (Necesario para el título en RecetasView)
 export const getCategoriaById = async (categoriaId: number): Promise<Categoria> => {
     try {
         const response = await axios.get(`${API_URL}/categorias/${categoriaId}`);
@@ -50,8 +35,6 @@ export const getCategoriaById = async (categoriaId: number): Promise<Categoria> 
         throw error;
     }
 };
-
-// POST /categorias
 export const createCategoria = async (nombre: string, descripcion: string): Promise<Categoria> => {
     try {
         const response = await axios.post(`${API_URL}/categorias`, { nombre, descripcion });
@@ -61,8 +44,6 @@ export const createCategoria = async (nombre: string, descripcion: string): Prom
         throw error;
     }
 };
-
-// PUT /categorias/:id
 export const updateCategoria = async (categoria: Categoria): Promise<Categoria> => {
     try {
         const response = await axios.put(`${API_URL}/categorias/${categoria.id}`, categoria);
@@ -72,8 +53,6 @@ export const updateCategoria = async (categoria: Categoria): Promise<Categoria> 
         throw error;
     }
 };
-
-// DELETE /categorias/:id
 export const deleteCategoria = async (categoriaId: number): Promise<void> => {
     try {
         await axios.delete(`${API_URL}/categorias/${categoriaId}`);
@@ -82,13 +61,6 @@ export const deleteCategoria = async (categoriaId: number): Promise<void> => {
         throw error;
     }
 };
-
-
-// ----------------------------------------------------
-// 2. FUNCIONES CRUD RECETAS
-// ----------------------------------------------------
-
-// GET /categorias/:id/recetas
 export const getRecetasPorCategoria = async (categoriaId: number): Promise<Receta[]> => {
     try {
         const response = await axios.get(`${API_URL}/categorias/${categoriaId}/recetas`);
@@ -98,8 +70,6 @@ export const getRecetasPorCategoria = async (categoriaId: number): Promise<Recet
         return [];
     }
 };
-
-// POST /recetas
 export const createReceta = async (recetaData: Omit<Receta, 'id'>): Promise<Receta> => {
     try {
         const response = await axios.post(`${API_URL}/recetas`, recetaData);
@@ -109,8 +79,6 @@ export const createReceta = async (recetaData: Omit<Receta, 'id'>): Promise<Rece
         throw error;
     }
 };
-
-// DELETE /recetas/:id
 export const deleteReceta = async (recetaId: number): Promise<void> => {
     try {
         await axios.delete(`${API_URL}/recetas/${recetaId}`);
@@ -128,6 +96,3 @@ export const updateReceta = async (receta: Receta): Promise<Receta> => {
         throw error;
     }
 };
-
-// **ACCIÓN PENDIENTE: Agrega la función updateReceta (PUT /recetas/:id) aquí cuando la necesites.**
-// export const updateReceta = async (receta: Receta): Promise<Receta> => { /* ... */ };

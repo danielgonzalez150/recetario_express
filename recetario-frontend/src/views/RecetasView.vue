@@ -17,15 +17,14 @@ const recetas = ref<Receta[]>([]);
 const categoria = ref<Categoria | null>(null);
 const mensajeError = ref('');
 
-// Formulario de Nueva Receta
+
 const nuevaReceta = ref({
     nombre: '',
-    ingredientes: '', // String separado por comas
+    ingredientes: '', 
     instrucciones: '',
     tiempoPreparacion: 30
 });
 
-// Estado para la Edición
 const recetaEnEdicion = ref<Receta | null>(null);
 const nombreEditado = ref('');
 const ingredientesEditados = ref('');
@@ -80,7 +79,6 @@ const manejarEliminarReceta = async (recetaId: number) => {
     }
 };
 
-// --- Lógica de Edición ---
 const iniciarEdicion = (receta: Receta) => {
     recetaEnEdicion.value = receta;
     nombreEditado.value = receta.nombre;
@@ -100,7 +98,6 @@ const manejarActualizarReceta = async () => {
     const recetaActualizada: Receta = {
         ...recetaEnEdicion.value,
         nombre: nombreEditado.value,
-        // Limpia y convierte la cadena de ingredientes en un array
         ingredientes: ingredientesEditados.value.split(',').map(s => s.trim()).filter(s => s.length > 0),
         instrucciones: instruccionesEditadas.value,
         tiempoPreparacion: Number(tiempoEditado.value),
@@ -215,13 +212,12 @@ onMounted(cargarDatos);
 </template>
 
 <style scoped>
-/* Estilos locales para ajustar la vista de Recetas */
 .back-link {
     margin-bottom: 20px;
 }
 .list-item {
     align-items: flex-start;
-    flex-direction: column; /* Apilamos contenido y acciones */
+    flex-direction: column; 
 }
 .item-header {
     width: 100%;
@@ -234,7 +230,6 @@ onMounted(cargarDatos);
     margin-top: 10px;
 }
 .recipe-details pre {
-    /* Estilo para <pre> definido en main.css */
     margin-top: 5px;
 }
 .section-edit {

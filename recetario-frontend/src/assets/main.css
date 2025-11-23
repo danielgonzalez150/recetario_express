@@ -1,6 +1,4 @@
-/* src/assets/main.css - Diseño CSS Puro y Funcional */
 
-/* --- RESET BÁSICO Y BASE --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -10,21 +8,17 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f4f7f9; /* Fondo muy claro */
+    background-color: #f4f7f9; 
     color: #333;
     min-height: 100vh;
 }
-
-/* --- CONTENEDOR PRINCIPAL --- */
 .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
 }
-
-/* --- ENCABEZADO (Header) --- */
 header {
-    background-color: #007bff; /* Azul primario */
+    background-color: #007bff; 
     color: white;
     padding: 15px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -34,10 +28,8 @@ header h1 {
     font-size: 1.8em;
     font-weight: 600;
 }
-
-/* --- SECCIONES Y FORMULARIOS --- */
 main {
-    padding-top: 30px; /* Separación después del header */
+    padding-top: 30px; 
 }
 
 .section {
@@ -46,7 +38,7 @@ main {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     margin-bottom: 30px;
-    border-top: 5px solid #007bff; /* Borde de color */
+    border-top: 5px solid #007bff; 
 }
 
 .section h2, .container h2 {
@@ -87,12 +79,9 @@ input:focus, textarea:focus {
     border-color: #007bff;
     outline: none;
 }
-
-/* --- BOTONES --- */
 .actions {
     display: flex;
     gap: 10px;
-    /* Para alineación en formularios como el de edición */
 }
 
 .btn {
@@ -103,13 +92,13 @@ input:focus, textarea:focus {
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1em;
-    text-decoration: none; /* Para usarlo con RouterLink */
+    text-decoration: none; 
     display: inline-block;
     text-align: center;
 }
 
 .btn-primary {
-    background-color: #28a745; /* Verde para crear/guardar */
+    background-color: #28a745; 
     color: white;
 }
 .btn-primary:hover {
@@ -117,7 +106,7 @@ input:focus, textarea:focus {
 }
 
 .btn-info {
-    background-color: #17a2b8; /* Azul claro para ver/acciones */
+    background-color: #17a2b8;
     color: white;
 }
 .btn-info:hover {
@@ -125,7 +114,7 @@ input:focus, textarea:focus {
 }
 
 .btn-warning {
-    background-color: #ffc107; /* Amarillo para editar */
+    background-color: #ffc107; 
     color: #333;
 }
 .btn-warning:hover {
@@ -133,14 +122,13 @@ input:focus, textarea:focus {
 }
 
 .btn-danger {
-    background-color: #dc3545; /* Rojo para eliminar/cancelar */
+    background-color: #dc3545; 
     color: white;
 }
 .btn-danger:hover {
     background-color: #bd2130;
 }
 
-/* --- LISTADO DE CATEGORÍAS/RECETAS --- */
 .list-item {
     display: flex;
     justify-content: space-between;
@@ -200,9 +188,6 @@ input:focus, textarea:focus {
 .back-link {
     margin-bottom: 20px;
 }
-
-
-/* --- DISEÑO RESPONSIVO BÁSICO --- */
 @media (max-width: 768px) {
     .container {
         padding: 10px;
@@ -215,12 +200,12 @@ input:focus, textarea:focus {
         margin-top: 10px;
         width: 100%;
         justify-content: space-between;
-        flex-wrap: wrap; /* Permite que los botones se envuelvan */
+        flex-wrap: wrap; 
     }
     .btn {
         flex-grow: 1;
         text-align: center;
-        margin-bottom: 5px; /* Pequeño espacio entre botones en móvil */
+        margin-bottom: 5px; 
     }
     .form-inline {
         flex-direction: column;
