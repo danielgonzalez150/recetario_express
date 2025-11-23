@@ -1,9 +1,8 @@
-// parcial3/tsconfig.json (Backend)
+
 {
   "compilerOptions": {
-    // ⭐️ Configuración de Módulos (Necesario para 'import/export') ⭐️
-    "module": "nodeNext", // O 'nodeNext'
-    "esModuleInterop": true, // <--- ESTA ES CLAVE para importar CommonJS como ESM
+    "module": "nodeNext", 
+    "esModuleInterop": true, 
     "target": "es2020",
     "strict": true,
     "skipLibCheck": true,
@@ -11,9 +10,8 @@
     "rootDir": "./src",
   },
   "include": ["src/**/*"],
-  // ⭐️ Excluir el Frontend y Node_modules ⭐️
   "exclude": [
     "node_modules",
-    "recetario-frontend" // <--- ¡Esta línea resuelve el error TS6059!
+    "recetario-frontend" 
   ]
 }

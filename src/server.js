@@ -1,7 +1,7 @@
-// src/server.ts
+
 import express from 'express';
 import cors from 'cors';
-// --- SIMULACIÓN DE BASE DE DATOS (Datos en Memoria) ---
+
 let categorias = [
     { id: 1, nombre: 'Postres', descripcion: 'Dulces, tortas y pasteles.' },
     { id: 2, nombre: 'Comida Rápida', descripcion: 'Recetas sencillas y rápidas.' },
@@ -14,22 +14,15 @@ let recetas = [
 ];
 let nextCategoriaId = Math.max(...categorias.map(c => c.id)) + 1;
 let nextRecetaId = Math.max(...recetas.map(r => r.id)) + 1;
-// --- CONFIGURACIÓN DEL SERVIDOR ---
 const app = express();
 const PORT = 3000;
-// Middleware
 app.use(cors());
 app.use(express.json());
-// --- RUTAS CATEGORÍAS (CRUD) ---
-/**
- * GET /categorias
- */
+
 app.get('/categorias', (req, res) => {
     res.json(categorias);
 });
-/**
- * POST /categorias
- */
+
 app.post('/categorias', (req, res) => {
     const { nombre, descripcion } = req.body;
     if (!nombre || !descripcion) {
@@ -43,16 +36,13 @@ app.post('/categorias', (req, res) => {
     categorias.push(nuevaCategoria);
     res.status(201).json(nuevaCategoria);
 });
-/**
- * PUT /categorias/:id
- */
+
 app.put('/categorias/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = categorias.findIndex(c => c.id === id);
     if (index === -1) {
         return res.status(404).json({ message: 'Categoría no encontrada.' });
     }
-    // ⭐️ Corrección final: Uso de aserción de no nulo '!'
     const categoriaExistente = categorias[index];
     const { nombre, descripcion } = req.body;
     categorias[index] = {
@@ -62,24 +52,20 @@ app.put('/categorias/:id', (req, res) => {
     };
     res.json(categorias[index]);
 });
-/**
- * DELETE /categorias/:id
- */
+
 app.delete('/categorias/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = categorias.findIndex(c => c.id === id);
     if (index === -1) {
         return res.status(404).json({ message: 'Categoría no encontrada.' });
     }
-    // 1. Eliminar las recetas asociadas
+
     recetas = recetas.filter(r => r.categoriaId !== id);
-    // 2. Eliminar la categoría
+
     categorias.splice(index, 1);
     res.status(204).send();
 });
-/**
- * GET /categorias/:id
- */
+
 app.get('/categorias/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const categoria = categorias.find(c => c.id === id);
@@ -88,18 +74,13 @@ app.get('/categorias/:id', (req, res) => {
     }
     res.json(categoria);
 });
-// --- RUTAS RECETAS (CRUD) ---
-/**
- * GET /categorias/:categoriaId/recetas
- */
+
 app.get('/categorias/:categoriaId/recetas', (req, res) => {
     const categoriaId = parseInt(req.params.categoriaId);
     const recetasFiltradas = recetas.filter(r => r.categoriaId === categoriaId);
     res.json(recetasFiltradas);
 });
-/**
- * POST /recetas
- */
+
 app.post('/recetas', (req, res) => {
     const { categoriaId, nombre, ingredientes, instrucciones, tiempoPreparacion } = req.body;
     if (!categoriaId || !nombre || !instrucciones || !tiempoPreparacion) {
@@ -119,16 +100,13 @@ app.post('/recetas', (req, res) => {
     recetas.push(nuevaReceta);
     res.status(201).json(nuevaReceta);
 });
-/**
- * PUT /recetas/:id
- */
+
 app.put('/recetas/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = recetas.findIndex(r => r.id === id);
     if (index === -1) {
         return res.status(404).json({ message: 'Receta no encontrada.' });
     }
-    // ⭐️ Corrección final: Uso de aserción de no nulo '!'
     const recetaExistente = recetas[index];
     const { nombre, ingredientes, instrucciones, tiempoPreparacion } = req.body;
     recetas[index] = {
@@ -141,9 +119,7 @@ app.put('/recetas/:id', (req, res) => {
     };
     res.json(recetas[index]);
 });
-/**
- * DELETE /recetas/:id
- */
+
 app.delete('/recetas/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = recetas.findIndex(r => r.id === id);
@@ -153,7 +129,6 @@ app.delete('/recetas/:id', (req, res) => {
     recetas.splice(index, 1);
     res.status(204).send();
 });
-// --- INICIAR SERVIDOR ---
 app.listen(PORT, () => {
     console.log(`Servidor Express escuchando en http://localhost:${PORT}`);
 });

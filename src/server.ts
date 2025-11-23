@@ -1,14 +1,10 @@
-// src/server.ts
 
 import express from 'express';
 import { Request, Response } from 'express';
 import cors from 'cors';
-import swaggerUi, { JsonObject } from 'swagger-ui-express'; // Importamos JsonObject
+import swaggerUi, { JsonObject } from 'swagger-ui-express'; 
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
-
-
-// --- INTERFACES DE DATOS (MODELOS) ---
 
 interface Categoria {
     id: number;
@@ -29,8 +25,6 @@ type CategoriaUpdate = Partial<Categoria>;
 type RecetaUpdate = Partial<Receta>;
 
 
-// --- SIMULACIÓN DE BASE DE DATOS (Datos en Memoria) ---
-
 let categorias: Categoria[] = [
     { id: 1, nombre: 'Postres', descripcion: 'Dulces, tortas y pasteles.' },
     { id: 2, nombre: 'Comida Rápida', descripcion: 'Recetas sencillas y rápidas.' },
@@ -47,32 +41,20 @@ let recetas: Receta[] = [
 let nextCategoriaId = Math.max(...categorias.map(c => c.id)) + 1;
 let nextRecetaId = Math.max(...recetas.map(r => r.id)) + 1;
 
-// --- CONFIGURACIÓN DEL SERVIDOR ---
-
 const app = express();
 const PORT = 3000;
 
-// Middleware
 app.use(cors()); 
 app.use(express.json()); 
 
-// --- CONFIGURACIÓN DE SWAGGER (LEYENDO ARCHIVO EXTERNO) ---
-
 try {
-    // Lectura de la especificación YAML con tipado explícito para evitar TS2769
+
     const swaggerDocument: JsonObject = yaml.load(fs.readFileSync('./swagger.yaml', 'utf8')) as JsonObject;
-    
-    // RUTA DE DOCUMENTACIÓN SWAGGER 
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); 
 } catch (e) {
     console.error("Error al cargar swagger.yaml. Asegúrate de que el archivo exista en la raíz del proyecto y esté bien formado.");
-    // Opcional: Si falla la carga, puedes deshabilitar /docs o enviar un error 500
 }
 
-
-// ----------------------------------------------------------------------------------
-// --- RUTAS CATEGORÍAS (CRUD Completo) ---
-// ----------------------------------------------------------------------------------
 
 app.get('/categorias', (req: Request, res: Response) => {
     res.json(categorias);
@@ -138,10 +120,6 @@ app.delete('/categorias/:id', (req: Request<{ id: string }>, res: Response) => {
     res.status(204).send(); 
 });
 
-
-// ----------------------------------------------------------------------------------
-// --- RUTAS RECETAS (CRUD y Lógica) ---
-// ----------------------------------------------------------------------------------
 
 app.post('/recetas', (req: Request, res: Response) => {
     const { categoriaId, nombre, ingredientes, instrucciones, tiempoPreparacion } = req.body;
@@ -230,9 +208,6 @@ app.get('/recetas/fast', (req: Request, res: Response) => {
     const recetasRapidas = recetas.filter(r => r.tiempoPreparacion <= 30);
     res.json(recetasRapidas);
 });
-
-
-// --- INICIAR SERVIDOR ---
 
 app.listen(PORT, () => {
     console.log(`Servidor Express escuchando en http://localhost:${PORT}`);
